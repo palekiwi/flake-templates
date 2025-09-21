@@ -13,23 +13,28 @@ Create a Nix flake template in `templates/rust/mcp-server/` that provides a comp
 
 ### 1. flake.nix (High Priority)
 - Based on fenix template pattern but with MCP-specific dependencies
-- Include Rust stable toolchain via fenix
+- Include Rust 1.85 toolchain via fenix (from rust-toolchain.toml)
 - Add development tools: `rust-analyzer`, `cargo-watch`, `cargo-edit`, `cargo-expand`
 - Add runtime dependencies for SSE server: likely need `openssl` for HTTPS support
 - Shell hook with helpful startup message and version info
 
+### 1.5. rust-toolchain.toml (High Priority)
+- Specify Rust channel: "1.85"
+- Components: rustc, rust-std, cargo, clippy, rustfmt, rust-docs
+
 ### 2. Cargo.toml (High Priority)  
+- Edition: `"2024"`
 - Core dependencies:
-  - `rmcp = { version = "0.2.0", features = ["server"] }`
-  - `tokio = { version = "1.0", features = ["full"] }`
+  - `rmcp = { version = "0.6.4", features = ["server", "macros", "transport-sse-server", "schemars"] }`
+  - `tokio = { version = "1", features = ["macros", "rt", "rt-multi-thread", "io-std", "signal"] }`
   - `serde = { version = "1.0", features = ["derive"] }`
   - `serde_json = "1.0"`
   - `anyhow = "1.0"`
   - `tracing = "0.1"`
-  - `tracing-subscriber = "0.3"`
-  - `axum = "0.7"` (for HTTP server)
+  - `tracing-subscriber = { version = "0.3", features = ["env-filter", "std", "fmt"] }`
+  - `axum = { version = "0.8", features = ["macros"] }` (for HTTP server)
   - `tokio-util = "0.7"`
-  - `schemars = "0.8"` (for JSON schema generation)
+  - `schemars = "1.0"` (for JSON schema generation)
 
 ### 3. src/main.rs (High Priority)
 - SSE server setup based on `counter-sse-example.md`
