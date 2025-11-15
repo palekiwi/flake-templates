@@ -16,6 +16,24 @@
       rustToolchain = fenix.packages.${system}.stable.toolchain;
     in
     {
+      packages.${system}.default = pkgs.rustPlatform.buildRustPackage {
+        pname = "your-rust-package";
+        version = "0.1.0";
+        src = ./.;
+        
+        cargoLock = {
+          lockFile = ./Cargo.lock;
+        };
+        
+        nativeBuildInputs = [ rustToolchain ];
+        
+        # Add any system dependencies your package needs
+        buildInputs = [];
+        
+        # Add any build-time environment variables if needed
+        # RUSTFLAGS = "-C target-cpu=native";
+      };
+
       devShells.${system}.default = pkgs.mkShell
         {
           buildInputs = [
