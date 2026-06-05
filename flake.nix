@@ -17,6 +17,11 @@
         path = ./templates/rust/devshell;
         description = "Minimal Rust development environment (LSP-focused)";
       };
+
+      ruby-devshell = {
+        path = ./templates/ruby/devshell;
+        description = "Ruby development environment with bundix and ruby-lsp";
+      };
       
       default = self.templates.rust-fenix;
     };
